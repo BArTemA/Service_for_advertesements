@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertServiceClient", "AdvertServiceClient\AdvertServiceClient.csproj", "{F55B75A9-DEFA-4F52-AD48-EF8424CEEB25}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F55B75A9-DEFA-4F52-AD48-EF8424CEEB25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F55B75A9-DEFA-4F52-AD48-EF8424CEEB25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F55B75A9-DEFA-4F52-AD48-EF8424CEEB25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F55B75A9-DEFA-4F52-AD48-EF8424CEEB25}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FF7A6C8-78CF-4467-83F6-E56C4D54E8FC}
+	EndGlobalSection
+EndGlobal
