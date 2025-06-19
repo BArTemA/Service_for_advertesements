@@ -1,125 +1,112 @@
-﻿using AdvertServiceClient.Models;
-using AdvertServiceClient.Services;
-using System;
+﻿using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace AdvertServiceClient.Forms
+namespace AdvertServiceClient
 {
     public partial class RegisterForm : Form
     {
-        public User RegisteredUser { get; private set; }
+        private readonly DatabaseHelper _dbHelper;
 
         public RegisterForm()
         {
             InitializeComponent();
+            _dbHelper = new DatabaseHelper();
+            LoadLocations();
         }
 
-        private void RegisterForm_Load(object sender, EventArgs e)
+        private void LoadLocations()
         {
-            // Load locations for dropdown
-            using (var locationService = new LocationService())
-            {
-                var locations = locationService.GetAllLocations();
-                cmbLocation.DataSource = locations;
-                cmbLocation.DisplayMember = "City";
-                cmbLocation.ValueMember = "LocationID";
-                cmbLocation.SelectedIndex = -1;
-            }
-        }
-
-        private void btnRegister_Click(object sender, EventArgs e)
-        {
-            if (!ValidateInput())
-                return;
-
             try
             {
-                using (var userService = new UserService())
+                SqlParameter[] parameters = Array.Empty<SqlParameter>();
+                DataTable locations = _dbHelper.ExecuteStoredProcedure("sp_GetAllLocations", parameters);
+
+                cmbLocation.Items.Clear();
+                cmbLocation.Items.Add(new ComboBoxItem("Не указано", null));
+
+                foreach (DataRow row in locations.Rows)
                 {
-                    int userId;
-                    string passwordHash = HashPassword(txtPassword.Text); // You should implement proper password hashing
+                    string city = row["City"].ToString();
+                    string ZipCode = row["ZipCode"].ToString();
+                    string region = row["Region"] != DBNull.Value ? row["Region"].ToString() : "";
 
-                    userService.RegisterUser(
-                        txtUsername.Text.Trim(),
-                        txtEmail.Text.Trim(),
-                        passwordHash,
-                        txtPhone.Text.Trim(),
-                        cmbLocation.SelectedValue != null ? (int?)cmbLocation.SelectedValue : null,
-                        out userId);
+                    string displayText = !string.IsNullOrEmpty(region)
+                        ? $"{city}, {region}, {ZipCode}"
+                        : $"{city}, {ZipCode}";
 
-                    // Create user object for the registered user
-                    RegisteredUser = new User
-                    {
-                        UserID = userId,
-                        Username = txtUsername.Text.Trim(),
-                        Email = txtEmail.Text.Trim(),
-                        RegistrationDate = DateTime.Now,
-                        Phone = txtPhone.Text.Trim(),
-                        LocationID = cmbLocation.SelectedValue != null ? (int?)cmbLocation.SelectedValue : null
-                    };
-
-                    MessageBox.Show("Регистрация прошла успешно!", "Успех",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    cmbLocation.Items.Add(new ComboBoxItem(displayText, row["LocationID"]));
                 }
+
+                cmbLocation.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка регистрации: {ex.Message}", "Ошибка",
+                MessageBox.Show($"Ошибка при загрузке местоположений: {ex.Message}", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private bool ValidateInput()
+        private bool ValidateEmail(string email)
         {
-            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            return Regex.IsMatch(email, pattern);
+        }
+
+        private bool ValidatePhone(string phone)
+        {
+            if (string.IsNullOrWhiteSpace(phone))
+                return true; // Телефон не обязателен
+
+            string pattern = @"^\+?[0-9]\d{1,14}$";
+            return Regex.IsMatch(phone, pattern);
+        }
+
+        private bool ValidatePassword(string password)
+        {
+            return password.Length >= 5;
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            // Проверка обязательных полей
+            if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
+                string.IsNullOrWhiteSpace(txtEmail.Text) ||
+                string.IsNullOrWhiteSpace(txtPassword.Text) ||
+                string.IsNullOrWhiteSpace(txtConfirmPassword.Text))
             {
-                MessageBox.Show("Введите имя пользователя", "Ошибка",
+                MessageBox.Show("Все обязательные поля должны быть заполнены", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtUsername.Focus();
-                return false;
+                return;
             }
 
-            if (txtUsername.Text.Length < 3)
+            // Валидация email
+            if (!ValidateEmail(txtEmail.Text.Trim()))
             {
-                MessageBox.Show("Имя пользователя должно содержать минимум 3 символа", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtUsername.Focus();
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                MessageBox.Show("Введите email", "Ошибка",
+                MessageBox.Show("Введите корректный email адрес", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtEmail.Focus();
-                return false;
+                return;
             }
 
-            if (!txtEmail.Text.Contains("@") || !txtEmail.Text.Contains("."))
+            // Валидация телефона
+            if (!ValidatePhone(txtPhone.Text.Trim()))
             {
-                MessageBox.Show("Введите корректный email", "Ошибка",
+                MessageBox.Show("Введите корректный номер телефона", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtEmail.Focus();
-                return false;
+                txtPhone.Focus();
+                return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            // Валидация пароля
+            if (!ValidatePassword(txtPassword.Text))
             {
-                MessageBox.Show("Введите пароль", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPassword.Focus();
-                return false;
-            }
-
-            if (txtPassword.Text.Length < 6)
-            {
-                MessageBox.Show("Пароль должен содержать минимум 6 символов", "Ошибка",
+                MessageBox.Show("Пароль должен содержать не менее 5 символов", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPassword.Focus();
-                return false;
+                return;
             }
 
             if (txtPassword.Text != txtConfirmPassword.Text)
@@ -127,23 +114,58 @@ namespace AdvertServiceClient.Forms
                 MessageBox.Show("Пароли не совпадают", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtConfirmPassword.Focus();
-                return false;
+                return;
             }
 
-            return true;
-        }
+            // Получаем выбранное местоположение
+            object locationId = (cmbLocation.SelectedItem as ComboBoxItem)?.Value ?? DBNull.Value;
 
-        private string HashPassword(string password)
-        {
-            // TODO: Implement proper password hashing (e.g., using BCrypt or PBKDF2)
-            // This is just a placeholder - NEVER use this in production!
-            return password; // In real app, replace with proper hashing
-        }
+            try
+            {
+                // Создаем параметры
+                var parameters = new SqlParameter[]
+                {
+            new SqlParameter("@Username", txtUsername.Text.Trim()),
+            new SqlParameter("@Email", txtEmail.Text.Trim()),
+            new SqlParameter("@Password", txtPassword.Text),
+            new SqlParameter("@Phone", string.IsNullOrWhiteSpace(txtPhone.Text) ? (object)DBNull.Value : txtPhone.Text.Trim()),
+            new SqlParameter("@LocationID", locationId),
+            new SqlParameter("@UserID", SqlDbType.Int) { Direction = ParameterDirection.Output }
+                };
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
+                // Выполняем процедуру
+                int affectedRows = _dbHelper.ExecuteStoredProcedureNonQuery("sp_RegisterUser", parameters);
+
+                
+                    MessageBox.Show("Регистрация прошла успешно!", "Успех",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DialogResult = DialogResult.OK;
+                    Close();
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при регистрации: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             Close();
+        }
+    }
+
+    public class ComboBoxItem
+    {
+        public string Text { get; set; }
+        public object Value { get; set; }
+
+        public ComboBoxItem(string text, object value)
+        {
+            Text = text;
+            Value = value;
+        }
+
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }

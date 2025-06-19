@@ -1,116 +1,208 @@
-﻿using AdvertServiceClient.Models;
-using AdvertServiceClient.Services;
-using System;
+﻿using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 
-namespace AdvertServiceClient.Forms
+namespace AdvertServiceClient
 {
     public partial class ChatForm : Form
     {
-        private readonly User _currentUser;
-        private readonly int _chatId;
+        private readonly DatabaseHelper _dbHelper;
+        private readonly int _currentUserId;
+        private readonly int _advertId;
+        private int _chatId;
         private int _otherUserId;
-        private string _otherUserName;
 
-        public ChatForm(User currentUser, int chatId)
+        public ChatForm(int currentUserId, int advertId)
         {
             InitializeComponent();
-            _currentUser = currentUser;
-            _chatId = chatId;
-            Text = $"Чат #{chatId}";
-        }
-
-        private void ChatForm_Load(object sender, EventArgs e)
-        {
-            LoadChatInfo();
+            _dbHelper = new DatabaseHelper();
+            _currentUserId = currentUserId;
+            _advertId = advertId;
+            InitializeChat();
             LoadMessages();
-            timerRefresh.Interval = 5000; // Обновление каждые 5 секунд
-            timerRefresh.Start();
+            timerMessages.Enabled = true;
         }
 
-        private void LoadChatInfo()
+        private void InitializeChat()
         {
-            using (var chatService = new ChatService())
+            try
             {
-                var chatTable = chatService.GetChatMessages(_chatId, _currentUser.UserID, 1, 1);
-                if (chatTable.Rows.Count > 0)
+                // Получаем информацию о объявлении, чтобы определить владельца
+                var adParams = new System.Data.SqlClient.SqlParameter[]
                 {
-                    var row = chatTable.Rows[0];
-                    _otherUserId = (int)(_currentUser.UserID == (int)row["User1ID"] ? row["User2ID"] : row["User1ID"]);
-                    _otherUserName = _currentUser.UserID == (int)row["User1ID"] ? row["User2Name"].ToString() : row["User1Name"].ToString();
-                    lblChatWith.Text = $"Чат с: {_otherUserName}";
-                    lblAdvertTitle.Text = row["AdvertTitle"].ToString();
-                    lblAdvertPrice.Text = $"Цена: {row["Price"]}";
-                    lblAdvertStatus.Text = $"Статус: {row["AdvertStatus"]}";
+                    new System.Data.SqlClient.SqlParameter("@AdvertID", _advertId),
+                    new System.Data.SqlClient.SqlParameter("@IncrementViewCount", 0)
+                };
+
+                var adData = _dbHelper.ExecuteStoredProcedure("sp_GetAdvertisementDetails", adParams);
+                if (adData.Rows.Count > 0)
+                {
+                    _otherUserId = (int)adData.Rows[0]["UserID"];
+                    lblAdTitle.Text = adData.Rows[0]["Title"].ToString();
+                    lblAdPrice.Text = $"{adData.Rows[0]["Price"]} руб.";
+
+                    // Создаем или получаем чат
+                    var chatParams = new System.Data.SqlClient.SqlParameter[]
+                    {
+                        new System.Data.SqlClient.SqlParameter("@AdvertID", _advertId),
+                        new System.Data.SqlClient.SqlParameter("@User1ID", _otherUserId), // владелец объявления
+                        new System.Data.SqlClient.SqlParameter("@User2ID", _currentUserId), // текущий пользователь
+                        new System.Data.SqlClient.SqlParameter("@ChatID", System.Data.SqlDbType.Int) { Direction = System.Data.ParameterDirection.Output }
+                    };
+
+                    _dbHelper.ExecuteStoredProcedureNonQuery("sp_CreateChat", chatParams);
+                    _chatId = (int)chatParams[3].Value;
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при инициализации чата: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
             }
         }
 
         private void LoadMessages()
         {
-            using (var chatService = new ChatService())
+            try
             {
-                var messagesTable = chatService.GetChatMessages(_chatId, _currentUser.UserID);
-                flowMessages.Controls.Clear();
-
-                foreach (DataRow row in messagesTable.Rows)
+                var parameters = new System.Data.SqlClient.SqlParameter[]
                 {
-                    var messageControl = new MessageControl(
-                        (int)row["SenderID"],
-                        row["SenderName"].ToString(),
-                        row["Content"].ToString(),
-                        (DateTime)row["SentDate"],
-                        (bool)row["IsRead"],
-                        (bool)row["IsOwnMessage"]);
+                    new System.Data.SqlClient.SqlParameter("@ChatID", _chatId),
+                    new System.Data.SqlClient.SqlParameter("@UserID", _currentUserId)
+                };
 
-                    flowMessages.Controls.Add(messageControl);
+                var messages = _dbHelper.ExecuteStoredProcedure("sp_GetChatMessages", parameters);
+
+                flowLayoutPanelMessages.Controls.Clear();
+
+                foreach (DataRow row in messages.Rows)
+                {
+                    var messageControl = new MessageControl
+                    {
+                        SenderName = row["SenderName"].ToString(),
+                        Content = row["Content"].ToString(),
+                        SentDate = DateTime.Parse(row["SentDate"].ToString()),
+                        IsOwnMessage = (bool)row["IsOwnMessage"]
+                    };
+
+                    flowLayoutPanelMessages.Controls.Add(messageControl);
                 }
 
                 // Прокрутка вниз
-                if (flowMessages.VerticalScroll.Visible)
-                {
-                    flowMessages.ScrollControlIntoView(flowMessages.Controls[flowMessages.Controls.Count - 1]);
-                }
+                flowLayoutPanelMessages.ScrollControlIntoView(
+                    flowLayoutPanelMessages.Controls[flowLayoutPanelMessages.Controls.Count - 1]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке сообщений: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtMessage.Text)) return;
-
-            using (var chatService = new ChatService())
+            if (string.IsNullOrWhiteSpace(txtMessage.Text))
             {
-                chatService.SendMessage(_chatId, _currentUser.UserID, _otherUserId, txtMessage.Text);
+                MessageBox.Show("Введите текст сообщения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var parameters = new System.Data.SqlClient.SqlParameter[]
+                {
+                    new System.Data.SqlClient.SqlParameter("@ChatID", _chatId),
+                    new System.Data.SqlClient.SqlParameter("@SenderID", _currentUserId),
+                    new System.Data.SqlClient.SqlParameter("@ReceiverID", _otherUserId),
+                    new System.Data.SqlClient.SqlParameter("@Content", txtMessage.Text),
+                    new System.Data.SqlClient.SqlParameter("@MessageID", System.Data.SqlDbType.Int) { Direction = System.Data.ParameterDirection.Output }
+                };
+
+                _dbHelper.ExecuteStoredProcedureNonQuery("sp_SendMessage", parameters);
                 txtMessage.Clear();
                 LoadMessages();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при отправке сообщения: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void timerRefresh_Tick(object sender, EventArgs e)
+        private void timerMessages_Tick(object sender, EventArgs e)
         {
             LoadMessages();
         }
 
-        private void btnCloseChat_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Закрыть этот чат?", "Подтверждение",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                using (var chatService = new ChatService())
-                {
-                    chatService.CloseChat(_chatId, _currentUser.UserID);
-                    Close();
-                }
-            }
-        }
-
         private void ChatForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            timerRefresh.Stop();
-            using (var chatService = new ChatService())
+            timerMessages.Enabled = false;
+        }
+    }
+
+    public class MessageControl : Panel
+    {
+        private readonly Label _lblSender;
+        private readonly Label _lblContent;
+        private readonly Label _lblTime;
+
+        public MessageControl()
+        {
+            Width = 400;
+            AutoSize = true;
+            Padding = new Padding(5);
+            Margin = new Padding(5);
+
+            _lblSender = new Label
             {
-                chatService.MarkMessagesAsRead(_chatId, _currentUser.UserID);
+                AutoSize = true,
+                Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold),
+                Margin = new Padding(0, 0, 0, 3)
+            };
+
+            _lblContent = new Label
+            {
+                AutoSize = true,
+                MaximumSize = new Size(380, 0),
+                Margin = new Padding(0, 0, 0, 3)
+            };
+
+            _lblTime = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Microsoft Sans Serif", 7F, FontStyle.Italic),
+                ForeColor = Color.Gray,
+                TextAlign = ContentAlignment.MiddleRight
+            };
+
+            Controls.Add(_lblSender);
+            Controls.Add(_lblContent);
+            Controls.Add(_lblTime);
+        }
+
+        public string SenderName
+        {
+            get => _lblSender.Text;
+            set => _lblSender.Text = value;
+        }
+
+        public string Content
+        {
+            get => _lblContent.Text;
+            set => _lblContent.Text = value;
+        }
+
+        public DateTime SentDate
+        {
+            get => DateTime.Parse(_lblTime.Text);
+            set => _lblTime.Text = value.ToString("g");
+        }
+
+        public bool IsOwnMessage
+        {
+            set
+            {
+                BackColor = value ? Color.LightBlue : SystemColors.Control;
+                _lblTime.Dock = value ? DockStyle.Left : DockStyle.Right;
             }
         }
     }

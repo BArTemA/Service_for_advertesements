@@ -1,33 +1,46 @@
-﻿using AdvertServiceClient.Models;
-using AdvertServiceClient.Services;
-using System;
+﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace AdvertServiceClient.Forms
+namespace AdvertServiceClient
 {
     public partial class ComplainForm : Form
     {
+        private readonly DatabaseHelper _dbHelper;
         private readonly int _userId;
         private readonly int _advertId;
 
         public ComplainForm(int userId, int advertId)
         {
             InitializeComponent();
+            _dbHelper = new DatabaseHelper();
             _userId = userId;
             _advertId = advertId;
+            LoadAdInfo();
         }
 
-        private void ComplainForm_Load(object sender, EventArgs e)
+        private void LoadAdInfo()
         {
-            // Load advertisement details
-            using (var advertService = new AdvertService())
+            try
             {
-                var advert = advertService.GetAdvertisementDetails(_advertId);
-                if (advert.Rows.Count > 0)
+                var parameters = new SqlParameter[]
                 {
-                    lblAdvertTitle.Text = advert.Rows[0]["Title"].ToString();
-                    lblSeller.Text = advert.Rows[0]["SellerName"].ToString();
+                    new SqlParameter("@AdvertID", _advertId),
+                    new SqlParameter("@IncrementViewCount", 0)
+                };
+
+                var adData = _dbHelper.ExecuteStoredProcedure("sp_GetAdvertisementDetails", parameters);
+                if (adData.Rows.Count > 0)
+                {
+                    lblAdTitle.Text = adData.Rows[0]["Title"].ToString();
+                    lblSeller.Text = $"Продавец: {adData.Rows[0]["Username"]}";
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке информации об объявлении: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
             }
         }
 
@@ -35,40 +48,30 @@ namespace AdvertServiceClient.Forms
         {
             if (string.IsNullOrWhiteSpace(txtReason.Text))
             {
-                MessageBox.Show("Пожалуйста, укажите причину жалобы", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtReason.Focus();
+                MessageBox.Show("Пожалуйста, укажите причину жалобы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                using (var complaintService = new ComplainService())
+                var parameters = new SqlParameter[]
                 {
-                    int complaintId;
-                    complaintService.CreateComplaint(
-                        _userId,
-                        _advertId,
-                        txtReason.Text.Trim(),
-                        out complaintId);
+                    new SqlParameter("@UserID", _userId),
+                    new SqlParameter("@AdvertID", _advertId),
+                    new SqlParameter("@ReasonText", txtReason.Text),
+                    new SqlParameter("@ComplaintID", SqlDbType.Int) { Direction = ParameterDirection.Output }
+                };
 
-                    MessageBox.Show("Жалоба успешно отправлена", "Успех",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
+                _dbHelper.ExecuteStoredProcedureNonQuery("sp_CreateComplaint", parameters);
+
+                MessageBox.Show("Жалоба успешно отправлена", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при отправке жалобы: {ex.Message}", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка при отправке жалобы: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
         }
     }
 }

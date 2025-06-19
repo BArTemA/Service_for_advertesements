@@ -1,4 +1,4 @@
-﻿namespace AdvertServiceClient.Forms
+﻿namespace AdvertServiceClient
 {
     partial class MainForm
     {
@@ -13,17 +13,36 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
         private void InitializeComponent()
         {
+            this.lblWelcome = new System.Windows.Forms.Label();
+            this.lblRating = new System.Windows.Forms.Label();
             this.dgvAdvertisements = new System.Windows.Forms.DataGridView();
-            this.btnViewAdvert = new System.Windows.Forms.Button();
+            this.btnCreateAd = new System.Windows.Forms.Button();
             this.btnMyProfile = new System.Windows.Forms.Button();
-            this.btnMyAdverts = new System.Windows.Forms.Button();
-            this.btnMyChats = new System.Windows.Forms.Button();
+            this.btnMyAds = new System.Windows.Forms.Button();
+            this.btnModeration = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAdvertisements)).BeginInit();
             this.SuspendLayout();
+            // 
+            // lblWelcome
+            // 
+            this.lblWelcome.AutoSize = true;
+            this.lblWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblWelcome.Location = new System.Drawing.Point(20, 20);
+            this.lblWelcome.Name = "lblWelcome";
+            this.lblWelcome.Size = new System.Drawing.Size(115, 17);
+            this.lblWelcome.TabIndex = 0;
+            this.lblWelcome.Text = "Добро пожаловать!";
+            // 
+            // lblRating
+            // 
+            this.lblRating.AutoSize = true;
+            this.lblRating.Location = new System.Drawing.Point(20, 50);
+            this.lblRating.Name = "lblRating";
+            this.lblRating.Size = new System.Drawing.Size(52, 13);
+            this.lblRating.TabIndex = 1;
+            this.lblRating.Text = "Рейтинг:";
             // 
             // dgvAdvertisements
             // 
@@ -33,80 +52,85 @@
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvAdvertisements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAdvertisements.Location = new System.Drawing.Point(12, 41);
-            this.dgvAdvertisements.MultiSelect = false;
+            this.dgvAdvertisements.Location = new System.Drawing.Point(20, 80);
             this.dgvAdvertisements.Name = "dgvAdvertisements";
             this.dgvAdvertisements.ReadOnly = true;
             this.dgvAdvertisements.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAdvertisements.Size = new System.Drawing.Size(760, 408);
-            this.dgvAdvertisements.TabIndex = 0;
+            this.dgvAdvertisements.Size = new System.Drawing.Size(760, 400);
+            this.dgvAdvertisements.TabIndex = 2;
+            this.dgvAdvertisements.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAdvertisements_CellDoubleClick);
             // 
-            // btnViewAdvert
+            // btnCreateAd
             // 
-            this.btnViewAdvert.Location = new System.Drawing.Point(12, 12);
-            this.btnViewAdvert.Name = "btnViewAdvert";
-            this.btnViewAdvert.Size = new System.Drawing.Size(100, 23);
-            this.btnViewAdvert.TabIndex = 1;
-            this.btnViewAdvert.Text = "Просмотреть";
-            this.btnViewAdvert.UseVisualStyleBackColor = true;
-            this.btnViewAdvert.Click += new System.EventHandler(this.btnViewAdvert_Click);
+            this.btnCreateAd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCreateAd.Location = new System.Drawing.Point(800, 80);
+            this.btnCreateAd.Name = "btnCreateAd";
+            this.btnCreateAd.Size = new System.Drawing.Size(120, 30);
+            this.btnCreateAd.TabIndex = 3;
+            this.btnCreateAd.Text = "Создать объявление";
+            this.btnCreateAd.UseVisualStyleBackColor = true;
+            this.btnCreateAd.Click += new System.EventHandler(this.btnCreateAd_Click);
             // 
             // btnMyProfile
             // 
             this.btnMyProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMyProfile.Location = new System.Drawing.Point(672, 12);
+            this.btnMyProfile.Location = new System.Drawing.Point(800, 120);
             this.btnMyProfile.Name = "btnMyProfile";
-            this.btnMyProfile.Size = new System.Drawing.Size(100, 23);
-            this.btnMyProfile.TabIndex = 2;
+            this.btnMyProfile.Size = new System.Drawing.Size(120, 30);
+            this.btnMyProfile.TabIndex = 4;
             this.btnMyProfile.Text = "Мой профиль";
             this.btnMyProfile.UseVisualStyleBackColor = true;
             this.btnMyProfile.Click += new System.EventHandler(this.btnMyProfile_Click);
             // 
-            // btnMyAdverts
+            // btnMyAds
             // 
-            this.btnMyAdverts.Location = new System.Drawing.Point(118, 12);
-            this.btnMyAdverts.Name = "btnMyAdverts";
-            this.btnMyAdverts.Size = new System.Drawing.Size(100, 23);
-            this.btnMyAdverts.TabIndex = 3;
-            this.btnMyAdverts.Text = "Мои объявления";
-            this.btnMyAdverts.UseVisualStyleBackColor = true;
-            this.btnMyAdverts.Click += new System.EventHandler(this.btnMyAdverts_Click);
+            this.btnMyAds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMyAds.Location = new System.Drawing.Point(800, 160);
+            this.btnMyAds.Name = "btnMyAds";
+            this.btnMyAds.Size = new System.Drawing.Size(120, 30);
+            this.btnMyAds.TabIndex = 5;
+            this.btnMyAds.Text = "Мои объявления";
+            this.btnMyAds.UseVisualStyleBackColor = true;
+            this.btnMyAds.Click += new System.EventHandler(this.btnMyAds_Click);
             // 
-            // btnMyChats
+            // btnModeration
             // 
-            this.btnMyChats.Location = new System.Drawing.Point(224, 12);
-            this.btnMyChats.Name = "btnMyChats";
-            this.btnMyChats.Size = new System.Drawing.Size(100, 23);
-            this.btnMyChats.TabIndex = 4;
-            this.btnMyChats.Text = "Мои чаты";
-            this.btnMyChats.UseVisualStyleBackColor = true;
-            this.btnMyChats.Click += new System.EventHandler(this.btnMyChats_Click);
+            this.btnModeration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnModeration.Location = new System.Drawing.Point(800, 200);
+            this.btnModeration.Name = "btnModeration";
+            this.btnModeration.Size = new System.Drawing.Size(120, 30);
+            this.btnModeration.TabIndex = 6;
+            this.btnModeration.Text = "Модерация";
+            this.btnModeration.UseVisualStyleBackColor = true;
+            this.btnModeration.Click += new System.EventHandler(this.btnModeration_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 461);
-            this.Controls.Add(this.btnMyChats);
-            this.Controls.Add(this.btnMyAdverts);
+            this.ClientSize = new System.Drawing.Size(934, 511);
+            this.Controls.Add(this.btnModeration);
+            this.Controls.Add(this.btnMyAds);
             this.Controls.Add(this.btnMyProfile);
-            this.Controls.Add(this.btnViewAdvert);
+            this.Controls.Add(this.btnCreateAd);
             this.Controls.Add(this.dgvAdvertisements);
-            this.MinimumSize = new System.Drawing.Size(800, 500);
+            this.Controls.Add(this.lblRating);
+            this.Controls.Add(this.lblWelcome);
+            this.MinimumSize = new System.Drawing.Size(950, 550);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Сервис объявлений";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAdvertisements)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
-        #endregion
-
+        private System.Windows.Forms.Label lblWelcome;
+        private System.Windows.Forms.Label lblRating;
         private System.Windows.Forms.DataGridView dgvAdvertisements;
-        private System.Windows.Forms.Button btnViewAdvert;
+        private System.Windows.Forms.Button btnCreateAd;
         private System.Windows.Forms.Button btnMyProfile;
-        private System.Windows.Forms.Button btnMyAdverts;
-        private System.Windows.Forms.Button btnMyChats;
+        private System.Windows.Forms.Button btnMyAds;
+        private System.Windows.Forms.Button btnModeration;
     }
 }

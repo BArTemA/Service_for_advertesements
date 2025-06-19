@@ -8,20 +8,27 @@ namespace AdvertServiceClient.Models
 {
     public class User
     {
-        public int UserID { get; set; }
+        public int UserId { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
         public bool IsModerator { get; set; }
-        public int? LocationID { get; set; }
+        public int? LocationId { get; set; }
         public decimal? Rating { get; set; }
         public string Phone { get; set; }
         public byte[] ProfilePicture { get; set; }
 
         // Навигационные свойства
         public Location Location { get; set; }
+        public ICollection<Advertisement> Advertisements { get; set; }
+        public ICollection<Review> ReviewsGiven { get; set; }
+        public ICollection<Review> ReviewsReceived { get; set; }
+
+        // Вычисляемые свойства (можно заполнять при загрузке)
+        public int AdvertisementsCount => Advertisements?.Count ?? 0;
+        public int ReviewsCount => ReviewsReceived?.Count ?? 0;
     }
 
     public class Advertisement
