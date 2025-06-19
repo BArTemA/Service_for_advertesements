@@ -62,6 +62,12 @@
     <Compile Include="Forms\AddReviewForm.Designer.cs">
       <DependentUpon>AddReviewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AdvertTile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\AdvertTile.Designer.cs">
+      <DependentUpon>AdvertTile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ChangePasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,12 @@
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MessageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\MessageControl.Designer.cs">
+      <DependentUpon>MessageControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageControl.cs">
       <SubType>UserControl</SubType>

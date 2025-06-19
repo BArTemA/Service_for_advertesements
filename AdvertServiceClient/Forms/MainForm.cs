@@ -57,19 +57,63 @@ namespace AdvertServiceClient
 
         private void LoadAdvertisements()
         {
+            flowLayoutPanel1.Controls.Clear();
+
             try
             {
                 var parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@Status", "Active")
+            new SqlParameter("@Status", "Active"),
+            new SqlParameter("@PageSize", 20) // Добавляем явное ограничение
                 };
 
                 var adsData = _dbHelper.ExecuteStoredProcedure("sp_SearchAdvertisements", parameters);
-                dgvAdvertisements.DataSource = adsData;
+
+                if (adsData == null || adsData.Rows.Count == 0)
+                {
+                    MessageBox.Show("Нет активных объявлений для отображения.",
+                                  "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                foreach (DataRow row in adsData.Rows)
+                {
+                    try
+                    {
+                        // Безопасное получение значений с обработкой NULL
+                        var advertId = row["AdvertID"] != DBNull.Value ? Convert.ToInt32(row["AdvertID"]) : 0;
+                        var title = row["Title"] != DBNull.Value ? row["Title"].ToString() : "Без названия";
+                        var price = row["Price"] != DBNull.Value ? Convert.ToDecimal(row["Price"]) : 0m;
+                        var sellerName = row["Username"] != DBNull.Value ? row["Username"].ToString() : "Неизвестный";
+                        var sellerRating = row["SellerRating"] != DBNull.Value ? Convert.ToDecimal(row["SellerRating"]) : 0m;
+                        var categoryName = row["CategoryName"] != DBNull.Value ? row["CategoryName"].ToString() : "Без категории";
+                        var city = row["City"] != DBNull.Value ? row["City"].ToString() : "Не указано";
+                        var favoritesCount = row["FavoritesCount"] != DBNull.Value ? Convert.ToInt32(row["FavoritesCount"]) : 0;
+
+                        var tile = new AdvertTile(
+                            advertId, title, price, sellerName,
+                            sellerRating, categoryName, city,
+                            favoritesCount, _currentUserId);
+
+                        tile.MessageClicked += (sender, e) =>
+                        {
+                            var chatForm = new ChatForm(_currentUserId, e);
+                            chatForm.ShowDialog();
+                        };
+
+                        flowLayoutPanel1.Controls.Add(tile);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Логируем ошибку для конкретного объявления, но продолжаем загрузку остальных
+                        Console.WriteLine($"Ошибка при создании плитки объявления: {ex.Message}");
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке объявлений: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка при загрузке объявлений: {ex.Message}", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -100,17 +144,6 @@ namespace AdvertServiceClient
         {
             var moderationForm = new ModerationForm(_currentUserId);
             moderationForm.ShowDialog();
-        }
-
-        private void dgvAdvertisements_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                int advertId = Convert.ToInt32(dgvAdvertisements.Rows[e.RowIndex].Cells["AdvertID"].Value);
-                var adDetailsForm = new AdDetailsForm(advertId, _currentUserId);
-                adDetailsForm.ShowDialog();
-                LoadAdvertisements();
-            }
         }
     }
 }

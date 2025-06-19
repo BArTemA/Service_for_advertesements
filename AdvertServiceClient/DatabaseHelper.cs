@@ -14,6 +14,28 @@ namespace AdvertServiceClient
             _connectionString = ConfigurationManager.ConnectionStrings["AdvertServiceDB"].ConnectionString;
         }
 
+        public DataTable ExecuteQuery(string sqlQuery)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand(sqlQuery, connection))
+            {
+                var dataTable = new DataTable();
+                var adapter = new SqlDataAdapter(command);
+
+                try
+                {
+                    connection.Open();
+                    adapter.Fill(dataTable);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error executing query: {ex.Message}", ex);
+                }
+
+                return dataTable;
+            }
+        }
+
         public DataTable ExecuteStoredProcedure(string procedureName, SqlParameter[] parameters)
         {
             using (var connection = new SqlConnection(_connectionString))
