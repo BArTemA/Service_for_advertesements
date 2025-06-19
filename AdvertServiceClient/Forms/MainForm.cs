@@ -83,6 +83,7 @@ namespace AdvertServiceClient
                         // Безопасное получение значений с обработкой NULL
                         var advertId = row["AdvertID"] != DBNull.Value ? Convert.ToInt32(row["AdvertID"]) : 0;
                         var title = row["Title"] != DBNull.Value ? row["Title"].ToString() : "Без названия";
+                        var description = row["Description"] != DBNull.Value ? row["Description"].ToString() : "Описание отсутствует";
                         var price = row["Price"] != DBNull.Value ? Convert.ToDecimal(row["Price"]) : 0m;
                         var sellerName = row["Username"] != DBNull.Value ? row["Username"].ToString() : "Неизвестный";
                         var sellerRating = row["SellerRating"] != DBNull.Value ? Convert.ToDecimal(row["SellerRating"]) : 0m;
@@ -91,7 +92,7 @@ namespace AdvertServiceClient
                         var favoritesCount = row["FavoritesCount"] != DBNull.Value ? Convert.ToInt32(row["FavoritesCount"]) : 0;
 
                         var tile = new AdvertTile(
-                            advertId, title, price, sellerName,
+                            advertId, title, description, price, sellerName,
                             sellerRating, categoryName, city,
                             favoritesCount, _currentUserId);
 

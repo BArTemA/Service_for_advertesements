@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace AdvertServiceClient
+﻿namespace AdvertServiceClient
 {
     partial class EditAdForm
     {
@@ -30,161 +28,262 @@ namespace AdvertServiceClient
         /// </summary>
         private void InitializeComponent()
         {
+            this.panelHeader = new System.Windows.Forms.Panel();
+            this.lblFormTitle = new System.Windows.Forms.Label();
+            this.panelMain = new System.Windows.Forms.Panel();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtPrice = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblPrice = new System.Windows.Forms.Label();
+            this.numPrice = new System.Windows.Forms.NumericUpDown();
+            this.lblCategory = new System.Windows.Forms.Label();
             this.cmbCategory = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblLocation = new System.Windows.Forms.Label();
             this.cmbLocation = new System.Windows.Forms.ComboBox();
+            this.panelFooter = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.panelHeader.SuspendLayout();
+            this.panelMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
+            this.panelFooter.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // panelHeader
+            // 
+            this.panelHeader.BackColor = System.Drawing.Color.SteelBlue;
+            this.panelHeader.Controls.Add(this.lblFormTitle);
+            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelHeader.Location = new System.Drawing.Point(0, 0);
+            this.panelHeader.Name = "panelHeader";
+            this.panelHeader.Size = new System.Drawing.Size(500, 60);
+            this.panelHeader.TabIndex = 0;
+            // 
+            // lblFormTitle
+            // 
+            this.lblFormTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblFormTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFormTitle.ForeColor = System.Drawing.Color.White;
+            this.lblFormTitle.Location = new System.Drawing.Point(0, 0);
+            this.lblFormTitle.Name = "lblFormTitle";
+            this.lblFormTitle.Size = new System.Drawing.Size(500, 60);
+            this.lblFormTitle.TabIndex = 0;
+            this.lblFormTitle.Text = "РЕДАКТИРОВАНИЕ ОБЪЯВЛЕНИЯ";
+            this.lblFormTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panelMain
+            // 
+            this.panelMain.Controls.Add(this.lblTitle);
+            this.panelMain.Controls.Add(this.txtTitle);
+            this.panelMain.Controls.Add(this.lblDescription);
+            this.panelMain.Controls.Add(this.txtDescription);
+            this.panelMain.Controls.Add(this.lblPrice);
+            this.panelMain.Controls.Add(this.numPrice);
+            this.panelMain.Controls.Add(this.lblCategory);
+            this.panelMain.Controls.Add(this.cmbCategory);
+            this.panelMain.Controls.Add(this.lblLocation);
+            this.panelMain.Controls.Add(this.cmbLocation);
+            this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMain.Location = new System.Drawing.Point(0, 60);
+            this.panelMain.Name = "panelMain";
+            this.panelMain.Padding = new System.Windows.Forms.Padding(20);
+            this.panelMain.Size = new System.Drawing.Size(500, 385);
+            this.panelMain.TabIndex = 1;
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblTitle.Location = new System.Drawing.Point(17, 20);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(66, 15);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "Название:";
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(120, 20);
+            this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTitle.Location = new System.Drawing.Point(20, 40);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(350, 23);
-            this.txtTitle.TabIndex = 0;
+            this.txtTitle.Size = new System.Drawing.Size(460, 23);
+            this.txtTitle.TabIndex = 1;
             // 
-            // label1
+            // lblDescription
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Заголовок";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 60);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 15);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Описание";
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblDescription.Location = new System.Drawing.Point(17, 80);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(68, 15);
+            this.lblDescription.TabIndex = 2;
+            this.lblDescription.Text = "Описание:";
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(120, 60);
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDescription.Location = new System.Drawing.Point(20, 100);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(350, 100);
-            this.txtDescription.TabIndex = 2;
+            this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDescription.Size = new System.Drawing.Size(460, 107);
+            this.txtDescription.TabIndex = 3;
             // 
-            // label3
+            // lblPrice
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 180);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Цена";
+            this.lblPrice.AutoSize = true;
+            this.lblPrice.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPrice.Location = new System.Drawing.Point(17, 210);
+            this.lblPrice.Name = "lblPrice";
+            this.lblPrice.Size = new System.Drawing.Size(40, 15);
+            this.lblPrice.TabIndex = 4;
+            this.lblPrice.Text = "Цена:";
             // 
-            // txtPrice
+            // numPrice
             // 
-            this.txtPrice.Location = new System.Drawing.Point(120, 180);
-            this.txtPrice.Name = "txtPrice";
-            this.txtPrice.Size = new System.Drawing.Size(150, 23);
-            this.txtPrice.TabIndex = 4;
+            this.numPrice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.numPrice.DecimalPlaces = 2;
+            this.numPrice.Location = new System.Drawing.Point(20, 230);
+            this.numPrice.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.numPrice.Name = "numPrice";
+            this.numPrice.Size = new System.Drawing.Size(460, 23);
+            this.numPrice.TabIndex = 5;
             // 
-            // label4
+            // lblCategory
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 220);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 15);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Категория";
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCategory.Location = new System.Drawing.Point(17, 260);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(70, 15);
+            this.lblCategory.TabIndex = 6;
+            this.lblCategory.Text = "Категория:";
             // 
             // cmbCategory
             // 
+            this.cmbCategory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCategory.FormattingEnabled = true;
-            this.cmbCategory.Location = new System.Drawing.Point(120, 220);
+            this.cmbCategory.Location = new System.Drawing.Point(20, 280);
             this.cmbCategory.Name = "cmbCategory";
-            this.cmbCategory.Size = new System.Drawing.Size(350, 23);
-            this.cmbCategory.TabIndex = 8;
+            this.cmbCategory.Size = new System.Drawing.Size(460, 23);
+            this.cmbCategory.TabIndex = 7;
             // 
-            // label5
+            // lblLocation
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 260);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(103, 15);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Местоположение";
+            this.lblLocation.AutoSize = true;
+            this.lblLocation.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblLocation.Location = new System.Drawing.Point(17, 310);
+            this.lblLocation.Name = "lblLocation";
+            this.lblLocation.Size = new System.Drawing.Size(113, 15);
+            this.lblLocation.TabIndex = 8;
+            this.lblLocation.Text = "Местоположение:";
             // 
             // cmbLocation
             // 
+            this.cmbLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLocation.FormattingEnabled = true;
-            this.cmbLocation.Location = new System.Drawing.Point(120, 260);
+            this.cmbLocation.Location = new System.Drawing.Point(20, 330);
             this.cmbLocation.Name = "cmbLocation";
-            this.cmbLocation.Size = new System.Drawing.Size(350, 23);
-            this.cmbLocation.TabIndex = 10;
+            this.cmbLocation.Size = new System.Drawing.Size(460, 23);
+            this.cmbLocation.TabIndex = 9;
+            // 
+            // panelFooter
+            // 
+            this.panelFooter.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panelFooter.Controls.Add(this.btnSave);
+            this.panelFooter.Controls.Add(this.btnCancel);
+            this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelFooter.Location = new System.Drawing.Point(0, 445);
+            this.panelFooter.Name = "panelFooter";
+            this.panelFooter.Padding = new System.Windows.Forms.Padding(10);
+            this.panelFooter.Size = new System.Drawing.Size(500, 60);
+            this.panelFooter.TabIndex = 2;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(300, 310);
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnSave.FlatAppearance.BorderSize = 0;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSave.ForeColor = System.Drawing.Color.White;
+            this.btnSave.Location = new System.Drawing.Point(320, 10);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(80, 30);
-            this.btnSave.TabIndex = 11;
+            this.btnSave.Size = new System.Drawing.Size(80, 40);
+            this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Сохранить";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(390, 310);
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.BackColor = System.Drawing.Color.LightGray;
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.FlatAppearance.BorderSize = 0;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnCancel.Location = new System.Drawing.Point(410, 10);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(80, 30);
-            this.btnCancel.TabIndex = 12;
+            this.btnCancel.Size = new System.Drawing.Size(80, 40);
+            this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Отмена";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             // 
             // EditAdForm
             // 
+            this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(500, 360);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.cmbLocation);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.cmbCategory);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtPrice);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtTitle);
+            this.BackColor = System.Drawing.Color.White;
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(500, 505);
+            this.Controls.Add(this.panelMain);
+            this.Controls.Add(this.panelFooter);
+            this.Controls.Add(this.panelHeader);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "EditAdForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Редактирование объявления";
+            this.panelHeader.ResumeLayout(false);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numPrice)).EndInit();
+            this.panelFooter.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private TextBox txtTitle;
-        private Label label1;
-        private Label label2;
-        private TextBox txtDescription;
-        private Label label3;
-        private TextBox txtPrice;
-        private Label label4;
-        private ComboBox cmbCategory;
-        private Label label5;
-        private ComboBox cmbLocation;
-        private Button btnSave;
-        private Button btnCancel;
+        private System.Windows.Forms.Panel panelHeader;
+        private System.Windows.Forms.Label lblFormTitle;
+        private System.Windows.Forms.Panel panelMain;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.Label lblPrice;
+        private System.Windows.Forms.NumericUpDown numPrice;
+        private System.Windows.Forms.Label lblCategory;
+        private System.Windows.Forms.ComboBox cmbCategory;
+        private System.Windows.Forms.Label lblLocation;
+        private System.Windows.Forms.ComboBox cmbLocation;
+        private System.Windows.Forms.Panel panelFooter;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

@@ -165,6 +165,12 @@
     <Compile Include="Forms\UpdateProfileForm.Designer.cs">
       <DependentUpon>UpdateProfileForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\AdvertTile.resx">
+      <DependentUpon>AdvertTile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditAdForm.resx">
+      <DependentUpon>EditAdForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

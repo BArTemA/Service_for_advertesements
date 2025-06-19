@@ -18,6 +18,7 @@
         private void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
             this.lblSeller = new System.Windows.Forms.Label();
             this.lblCategory = new System.Windows.Forms.Label();
@@ -33,16 +34,26 @@
             this.lblTitle.Location = new System.Drawing.Point(10, 10);
             this.lblTitle.MaximumSize = new System.Drawing.Size(250, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(52, 17);
+            this.lblTitle.Size = new System.Drawing.Size(80, 17);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Название";
+            // 
+            // lblDescription
+            // 
+            this.lblDescription.AutoEllipsis = true;
+            this.lblDescription.Location = new System.Drawing.Point(10, 35);
+            this.lblDescription.MaximumSize = new System.Drawing.Size(250, 40);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(250, 30);
+            this.lblDescription.TabIndex = 7;
+            this.lblDescription.Text = "Описание";
             // 
             // lblPrice
             // 
             this.lblPrice.AutoSize = true;
             this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblPrice.ForeColor = System.Drawing.Color.Green;
-            this.lblPrice.Location = new System.Drawing.Point(10, 40);
+            this.lblPrice.Location = new System.Drawing.Point(10, 75);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.Size = new System.Drawing.Size(52, 20);
             this.lblPrice.TabIndex = 1;
@@ -51,17 +62,17 @@
             // lblSeller
             // 
             this.lblSeller.AutoSize = true;
-            this.lblSeller.Location = new System.Drawing.Point(10, 70);
+            this.lblSeller.Location = new System.Drawing.Point(8, 107);
             this.lblSeller.MaximumSize = new System.Drawing.Size(250, 0);
             this.lblSeller.Name = "lblSeller";
-            this.lblSeller.Size = new System.Drawing.Size(55, 13);
+            this.lblSeller.Size = new System.Drawing.Size(57, 13);
             this.lblSeller.TabIndex = 2;
             this.lblSeller.Text = "Продавец";
             // 
             // lblCategory
             // 
             this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(10, 90);
+            this.lblCategory.Location = new System.Drawing.Point(8, 129);
             this.lblCategory.MaximumSize = new System.Drawing.Size(250, 0);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Size = new System.Drawing.Size(60, 13);
@@ -71,17 +82,17 @@
             // lblLocation
             // 
             this.lblLocation.AutoSize = true;
-            this.lblLocation.Location = new System.Drawing.Point(10, 110);
+            this.lblLocation.Location = new System.Drawing.Point(8, 151);
             this.lblLocation.MaximumSize = new System.Drawing.Size(250, 0);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(89, 13);
+            this.lblLocation.Size = new System.Drawing.Size(95, 13);
             this.lblLocation.TabIndex = 4;
             this.lblLocation.Text = "Местоположение";
             // 
             // lblFavorites
             // 
             this.lblFavorites.AutoSize = true;
-            this.lblFavorites.Location = new System.Drawing.Point(10, 130);
+            this.lblFavorites.Location = new System.Drawing.Point(10, 173);
             this.lblFavorites.Name = "lblFavorites";
             this.lblFavorites.Size = new System.Drawing.Size(73, 13);
             this.lblFavorites.TabIndex = 5;
@@ -89,7 +100,7 @@
             // 
             // btnMessage
             // 
-            this.btnMessage.Location = new System.Drawing.Point(10, 160);
+            this.btnMessage.Location = new System.Drawing.Point(8, 200);
             this.btnMessage.Name = "btnMessage";
             this.btnMessage.Size = new System.Drawing.Size(120, 30);
             this.btnMessage.TabIndex = 6;
@@ -103,6 +114,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.btnMessage);
             this.Controls.Add(this.lblFavorites);
             this.Controls.Add(this.lblLocation);
@@ -113,7 +125,7 @@
             this.Margin = new System.Windows.Forms.Padding(10);
             this.Name = "AdvertTile";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Size = new System.Drawing.Size(280, 200);
+            this.Size = new System.Drawing.Size(280, 238);
             this.Load += new System.EventHandler(this.AdvertTile_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -129,5 +141,6 @@
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.Label lblFavorites;
         private System.Windows.Forms.Button btnMessage;
+        private System.Windows.Forms.Label lblDescription;
     }
 }

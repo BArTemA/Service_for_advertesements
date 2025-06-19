@@ -137,6 +137,7 @@ namespace AdvertServiceClient
                     {
                         var advertId = row["AdvertID"] != DBNull.Value ? Convert.ToInt32(row["AdvertID"]) : 0;
                         var title = row["Title"] != DBNull.Value ? row["Title"].ToString() : "Без названия";
+                        var description = row["Description"] != DBNull.Value ? row["Description"].ToString() : "Нет описания";
                         var price = row["Price"] != DBNull.Value ? Convert.ToDecimal(row["Price"]) : 0m;
                         var status = row["Status"] != DBNull.Value ? row["Status"].ToString() : "Unknown";
                         var viewCount = row["ViewCount"] != DBNull.Value ? Convert.ToInt32(row["ViewCount"]) : 0;
@@ -147,7 +148,7 @@ namespace AdvertServiceClient
                         var tile = new Panel
                         {
                             Width = 250,
-                            Height = 220, // Увеличим высоту плитки
+                            Height = 260, // Увеличиваем высоту для добавления описания
                             Margin = new Padding(15),
                             BackColor = Color.White,
                             BorderStyle = BorderStyle.FixedSingle,
@@ -175,11 +176,24 @@ namespace AdvertServiceClient
                             Font = new Font("Segoe UI", 10, FontStyle.Bold),
                             AutoSize = false,
                             Width = tile.Width - 20,
-                            Height = 50, // Увеличим высоту для заголовка
-                            Location = new Point(10, 15), // Сдвинем ниже
+                            Height = 40,
+                            Location = new Point(10, 10),
                             TextAlign = ContentAlignment.MiddleLeft
                         };
                         tile.Controls.Add(lblTitle);
+
+                        // Описание объявления (добавляем новый Label)
+                        var lblDescription = new Label
+                        {
+                            Text = description.Length > 50 ? description.Substring(0, 50) + "..." : description,
+                            AutoSize = false,
+                            Width = tile.Width - 20,
+                            Height = 40,
+                            Location = new Point(10, 60),
+                            Font = new Font("Segoe UI", 8),
+                            ForeColor = Color.Gray
+                        };
+                        tile.Controls.Add(lblDescription);
 
                         // Цена
                         var lblPrice = new Label
@@ -187,7 +201,7 @@ namespace AdvertServiceClient
                             Text = $"{price:N2} ₽",
                             Font = new Font("Segoe UI", 12, FontStyle.Bold),
                             AutoSize = true,
-                            Location = new Point(10, 70), // Сдвинем ниже
+                            Location = new Point(10, 100),
                             ForeColor = Color.DarkGreen
                         };
                         tile.Controls.Add(lblPrice);
@@ -199,7 +213,7 @@ namespace AdvertServiceClient
                             AutoSize = false,
                             Width = tile.Width - 20,
                             Height = 40,
-                            Location = new Point(10, 100), // Сдвинем ниже
+                            Location = new Point(10, 130),
                             Font = new Font("Segoe UI", 9)
                         };
                         tile.Controls.Add(lblDetails);
@@ -211,7 +225,7 @@ namespace AdvertServiceClient
                             AutoSize = false,
                             Width = tile.Width - 20,
                             Height = 40,
-                            Location = new Point(10, 140), // Сдвинем ниже
+                            Location = new Point(10, 170),
                             Font = new Font("Segoe UI", 8)
                         };
                         tile.Controls.Add(lblStats);
@@ -223,7 +237,7 @@ namespace AdvertServiceClient
                             AutoSize = false,
                             Width = tile.Width - 20,
                             Height = 20,
-                            Location = new Point(10, 180), // Сдвинем ниже
+                            Location = new Point(10, 210),
                             Font = new Font("Segoe UI", 8, FontStyle.Italic)
                         };
                         tile.Controls.Add(lblStatus);
@@ -238,20 +252,6 @@ namespace AdvertServiceClient
                         var deleteItem = new ToolStripMenuItem("Удалить");
                         deleteItem.Click += (s, e) => DeleteAdvert(advertId);
                         contextMenu.Items.Add(deleteItem);
-
-                        // Активация - деактивация
-                        //if (status == "Active")
-                        //{
-                        //    var deactivateItem = new ToolStripMenuItem("Деактивировать");
-                        //    deactivateItem.Click += (s, e) => ChangeAdvertStatus(advertId, "Inactive");
-                        //    contextMenu.Items.Add(deactivateItem);
-                        //}
-                        //else if (status == "Inactive")
-                        //{
-                        //    var activateItem = new ToolStripMenuItem("Активировать");
-                        //    activateItem.Click += (s, e) => ChangeAdvertStatus(advertId, "Active");
-                        //    contextMenu.Items.Add(activateItem);
-                        //}
 
                         tile.ContextMenuStrip = contextMenu;
                         tile.DoubleClick += (s, e) => EditAdvert(advertId);
@@ -273,7 +273,7 @@ namespace AdvertServiceClient
 
         private void EditAdvert(int advertId)
         {
-            var editForm = new CreateAdForm(_userId, advertId);
+            var editForm = new EditAdForm(_userId, advertId);
             if (editForm.ShowDialog() == DialogResult.OK)
             {
                 LoadMyAds();

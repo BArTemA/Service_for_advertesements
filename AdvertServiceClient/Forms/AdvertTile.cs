@@ -11,7 +11,7 @@ namespace AdvertServiceClient
 
         public event EventHandler<int> MessageClicked;
 
-        public AdvertTile(int advertId, string title, decimal price, string sellerName,
+        public AdvertTile(int advertId, string title, string description, decimal price, string sellerName,
                         decimal sellerRating, string categoryName, string city,
                         int favoritesCount, int currentUserId)
         {
@@ -21,6 +21,7 @@ namespace AdvertServiceClient
             _currentUserId = currentUserId;
 
             lblTitle.Text = title;
+            lblDescription.Text = description;
             lblPrice.Text = $"{price:C}";
             lblSeller.Text = $"Продавец: {sellerName} (рейтинг: {sellerRating:F1})";
             lblCategory.Text = $"Категория: {categoryName}";
