@@ -13,103 +13,126 @@
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
+
         private void InitializeComponent()
         {
-            this.lblEmail = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.lblPhone = new System.Windows.Forms.Label();
             this.txtPhone = new System.Windows.Forms.TextBox();
-            this.lblLocationId = new System.Windows.Forms.Label();
-            this.txtLocationId = new System.Windows.Forms.TextBox();
-            this.btnUpdate = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.cmbLocation = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
-            // 
-            // lblEmail
-            // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(20, 20);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(35, 13);
-            this.lblEmail.TabIndex = 0;
-            this.lblEmail.Text = "Email:";
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(120, 17);
+            this.txtEmail.Location = new System.Drawing.Point(120, 30);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(160, 20);
-            this.txtEmail.TabIndex = 1;
-            // 
-            // lblPhone
-            // 
-            this.lblPhone.AutoSize = true;
-            this.lblPhone.Location = new System.Drawing.Point(20, 50);
-            this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(55, 13);
-            this.lblPhone.TabIndex = 2;
-            this.lblPhone.Text = "Телефон:";
+            this.txtEmail.Size = new System.Drawing.Size(268, 20);
+            this.txtEmail.TabIndex = 0;
             // 
             // txtPhone
             // 
-            this.txtPhone.Location = new System.Drawing.Point(120, 47);
+            this.txtPhone.Location = new System.Drawing.Point(120, 70);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(160, 20);
-            this.txtPhone.TabIndex = 3;
+            this.txtPhone.Size = new System.Drawing.Size(268, 20);
+            this.txtPhone.TabIndex = 1;
             // 
-            // lblLocationId
+            // label1
             // 
-            this.lblLocationId.AutoSize = true;
-            this.lblLocationId.Location = new System.Drawing.Point(20, 80);
-            this.lblLocationId.Name = "lblLocationId";
-            this.lblLocationId.Size = new System.Drawing.Size(104, 13);
-            this.lblLocationId.TabIndex = 4;
-            this.lblLocationId.Text = "ID местоположения:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(20, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Email:";
             // 
-            // txtLocationId
+            // label2
             // 
-            this.txtLocationId.Location = new System.Drawing.Point(120, 77);
-            this.txtLocationId.Name = "txtLocationId";
-            this.txtLocationId.Size = new System.Drawing.Size(100, 20);
-            this.txtLocationId.TabIndex = 5;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(20, 73);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Телефон:";
             // 
-            // btnUpdate
+            // label3
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(120, 110);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(100, 30);
-            this.btnUpdate.TabIndex = 6;
-            this.btnUpdate.Text = "Обновить";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(20, 113);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(98, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Местоположение:";
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(120, 150);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 5;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(245, 150);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 6;
+            this.btnCancel.Text = "Отмена";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // cmbLocation
+            // 
+            this.cmbLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLocation.FormattingEnabled = true;
+            this.cmbLocation.Location = new System.Drawing.Point(120, 110);
+            this.cmbLocation.Name = "cmbLocation";
+            this.cmbLocation.Size = new System.Drawing.Size(268, 21);
+            this.cmbLocation.TabIndex = 7;
             // 
             // UpdateProfileForm
             // 
+            this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 160);
-            this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.txtLocationId);
-            this.Controls.Add(this.lblLocationId);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(424, 200);
+            this.Controls.Add(this.cmbLocation);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPhone);
-            this.Controls.Add(this.lblPhone);
             this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.lblEmail);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpdateProfileForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Редактирование профиля";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
-        private System.Windows.Forms.Label lblEmail;
+        #endregion
+
         private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.Label lblPhone;
         private System.Windows.Forms.TextBox txtPhone;
-        private System.Windows.Forms.Label lblLocationId;
-        private System.Windows.Forms.TextBox txtLocationId;
-        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.ComboBox cmbLocation;
     }
 }

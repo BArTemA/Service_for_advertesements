@@ -37,7 +37,7 @@ namespace AdvertServiceClient
                 var parameters = new SqlParameter[]
                 {
                     new SqlParameter("@UserID", _userId),
-                    new SqlParameter("@OldPassword", txtOldPassword.Text),
+                    new SqlParameter("@OldPassword", txtOldPassword.Text.ToString()),
                     new SqlParameter("@NewPassword", txtNewPassword.Text)
                 };
 

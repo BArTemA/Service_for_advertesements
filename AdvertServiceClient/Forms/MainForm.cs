@@ -25,7 +25,7 @@ namespace AdvertServiceClient
 
         private void UpdateUI()
         {
-            btnCreateAd.Visible = _currentUserId > 0;
+            //btnCreateAd.Visible = _currentUserId > 0;
             btnMyProfile.Visible = _currentUserId > 0;
             btnMyAds.Visible = _currentUserId > 0;
             btnModeration.Visible = _isModerator;
@@ -114,15 +114,6 @@ namespace AdvertServiceClient
             {
                 MessageBox.Show($"Ошибка при загрузке объявлений: {ex.Message}", "Ошибка",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnCreateAd_Click(object sender, EventArgs e)
-        {
-            var createAdForm = new CreateAdForm(_currentUserId);
-            if (createAdForm.ShowDialog() == DialogResult.OK)
-            {
-                LoadAdvertisements();
             }
         }
 

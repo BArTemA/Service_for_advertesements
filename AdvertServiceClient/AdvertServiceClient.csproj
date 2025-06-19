@@ -93,6 +93,12 @@
       <DependentUpon>CreateAdForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="Forms\EditAdForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditAdForm.Designer.cs">
+      <DependentUpon>EditAdForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,12 @@
     <Compile Include="Forms\MessageControl.Designer.cs">
       <DependentUpon>MessageControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ReviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReviewForm.Designer.cs">
+      <DependentUpon>ReviewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -120,12 +132,6 @@
     </Compile>
     <Compile Include="Forms\ModerationForm.Designer.cs">
       <DependentUpon>ModerationForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MyAdDetailsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MyAdDetailsForm.Designer.cs">
-      <DependentUpon>MyAdDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MyAdsForm.cs">
       <SubType>Form</SubType>
@@ -159,11 +165,20 @@
     <Compile Include="Forms\UpdateProfileForm.Designer.cs">
       <DependentUpon>UpdateProfileForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ModerationForm.resx">
       <DependentUpon>ModerationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProfileForm.resx">
+      <DependentUpon>ProfileForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\RegisterForm.resx">
       <DependentUpon>RegisterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UpdateProfileForm.resx">
+      <DependentUpon>UpdateProfileForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

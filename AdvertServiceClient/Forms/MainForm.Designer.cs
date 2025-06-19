@@ -18,7 +18,6 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnCreateAd = new System.Windows.Forms.Button();
             this.btnMyProfile = new System.Windows.Forms.Button();
             this.btnMyAds = new System.Windows.Forms.Button();
             this.btnModeration = new System.Windows.Forms.Button();
@@ -26,7 +25,6 @@
             this.lblRating = new System.Windows.Forms.Label();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelHeader = new System.Windows.Forms.Panel();
-            this.panelMenu.SuspendLayout();
             this.panelHeader.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,19 +38,9 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(800, 350);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
-            // btnCreateAd
-            // 
-            this.btnCreateAd.Location = new System.Drawing.Point(10, 10);
-            this.btnCreateAd.Name = "btnCreateAd";
-            this.btnCreateAd.Size = new System.Drawing.Size(120, 30);
-            this.btnCreateAd.TabIndex = 1;
-            this.btnCreateAd.Text = "Создать объявление";
-            this.btnCreateAd.UseVisualStyleBackColor = true;
-            this.btnCreateAd.Click += new System.EventHandler(this.btnCreateAd_Click);
-            // 
             // btnMyProfile
             // 
-            this.btnMyProfile.Location = new System.Drawing.Point(140, 10);
+            this.btnMyProfile.Location = new System.Drawing.Point(26, 70);
             this.btnMyProfile.Name = "btnMyProfile";
             this.btnMyProfile.Size = new System.Drawing.Size(120, 30);
             this.btnMyProfile.TabIndex = 2;
@@ -62,7 +50,7 @@
             // 
             // btnMyAds
             // 
-            this.btnMyAds.Location = new System.Drawing.Point(270, 10);
+            this.btnMyAds.Location = new System.Drawing.Point(182, 70);
             this.btnMyAds.Name = "btnMyAds";
             this.btnMyAds.Size = new System.Drawing.Size(120, 30);
             this.btnMyAds.TabIndex = 3;
@@ -72,7 +60,7 @@
             // 
             // btnModeration
             // 
-            this.btnModeration.Location = new System.Drawing.Point(400, 10);
+            this.btnModeration.Location = new System.Drawing.Point(331, 70);
             this.btnModeration.Name = "btnModeration";
             this.btnModeration.Size = new System.Drawing.Size(120, 30);
             this.btnModeration.TabIndex = 4;
@@ -102,10 +90,6 @@
             // 
             // panelMenu
             // 
-            this.panelMenu.Controls.Add(this.btnCreateAd);
-            this.panelMenu.Controls.Add(this.btnMyProfile);
-            this.panelMenu.Controls.Add(this.btnMyAds);
-            this.panelMenu.Controls.Add(this.btnModeration);
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelMenu.Location = new System.Drawing.Point(0, 450);
             this.panelMenu.Name = "panelMenu";
@@ -115,6 +99,9 @@
             // panelHeader
             // 
             this.panelHeader.Controls.Add(this.lblWelcome);
+            this.panelHeader.Controls.Add(this.btnModeration);
+            this.panelHeader.Controls.Add(this.btnMyAds);
+            this.panelHeader.Controls.Add(this.btnMyProfile);
             this.panelHeader.Controls.Add(this.lblRating);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
@@ -132,7 +119,6 @@
             this.Controls.Add(this.panelMenu);
             this.Name = "MainForm";
             this.Text = "Сервис объявлений";
-            this.panelMenu.ResumeLayout(false);
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
             this.ResumeLayout(false);
@@ -142,7 +128,6 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button btnCreateAd;
         private System.Windows.Forms.Button btnMyProfile;
         private System.Windows.Forms.Button btnMyAds;
         private System.Windows.Forms.Button btnModeration;
