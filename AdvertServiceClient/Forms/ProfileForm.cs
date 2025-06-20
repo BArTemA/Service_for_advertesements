@@ -10,20 +10,24 @@ namespace AdvertServiceClient
     public partial class ProfileForm : Form
     {
         private readonly DatabaseHelper _dbHelper;
-        private readonly int _userId;
-        private int _currentUserId;
+        private readonly int _userId; // ID пользователя, чей профиль просматривается
+        private readonly int _viewerId; // ID пользователя, который просматривает профиль
         private Panel _reviewsPanel;
 
-        public ProfileForm(int userId)
+        public ProfileForm(int userId, int viewerId)
         {
             InitializeComponent();
             _dbHelper = new DatabaseHelper();
             _userId = userId;
-            _currentUserId = userId;
+            _viewerId = viewerId;
 
             InitializeReviewsPanel();
             LoadUserProfile();
             LoadUserReviews();
+
+            // Скрываем кнопки редактирования, если это не свой профиль
+            btnUpdateProfile.Visible = (_userId == _viewerId);
+            btnChangePassword.Visible = (_userId == _viewerId);
         }
 
         private void InitializeReviewsPanel()
@@ -56,7 +60,7 @@ namespace AdvertServiceClient
                 Text = "Написать отзыв",
                 Location = new Point(200, 220),
                 Size = new Size(120, 25),
-                Enabled = (_currentUserId != _userId)
+                Enabled = (_viewerId != _userId) // Доступна только для чужих профилей
             };
             btnAddReview.Click += BtnAddReview_Click;
             Controls.Add(btnAddReview);
@@ -103,9 +107,9 @@ namespace AdvertServiceClient
             {
                 var parameters = new SqlParameter[]
                 {
-            new SqlParameter("@UserID", _userId),
-            new SqlParameter("@PageNumber", 1),
-            new SqlParameter("@PageSize", 10)
+                    new SqlParameter("@UserID", _userId),
+                    new SqlParameter("@PageNumber", 1),
+                    new SqlParameter("@PageSize", 10)
                 };
 
                 DataTable reviewsData = _dbHelper.ExecuteStoredProcedure("sp_GetUserReviews", parameters);
@@ -166,6 +170,7 @@ namespace AdvertServiceClient
                 try
                 {
                     // Безопасное получение данных
+                    int reviewerId = Convert.ToInt32(row["ReviewerID"]);
                     string reviewerName = row["ReviewerName"]?.ToString() ?? "Аноним";
                     string comment = row["Comment"]?.ToString() ?? "Без комментария";
                     DateTime reviewDate = row["ReviewDate"] != DBNull.Value ? (DateTime)row["ReviewDate"] : DateTime.Now;
@@ -177,9 +182,8 @@ namespace AdvertServiceClient
                         {
                             rating = Convert.ToInt32(row["Rating"]);
                         }
-                        
                     }
-                    
+
                     Panel reviewPanel = new Panel
                     {
                         AutoScroll = true,
@@ -199,7 +203,6 @@ namespace AdvertServiceClient
                         AutoSize = true
                     };
 
-                    //string ratingStars = new string('★', rating) + new string('☆', 5 - rating);
                     string ratingStars = new string('★', rating);
                     Label ratingLabel = new Label
                     {
@@ -218,7 +221,8 @@ namespace AdvertServiceClient
                         BackColor = Color.WhiteSmoke,
                         Location = new Point(10, 60),
                         Size = new Size(reviewPanel.Width - 30, 50),
-                        ScrollBars = ScrollBars.Vertical
+                        ScrollBars = ScrollBars.Vertical,
+                        TabStop = false
                     };
 
                     Label dateLabel = new Label
@@ -228,6 +232,21 @@ namespace AdvertServiceClient
                         Location = new Point(reviewPanel.Width - 100, 10),
                         AutoSize = true
                     };
+
+                    // Добавляем кнопку удаления, если это отзыв текущего пользователя или это его профиль
+                    if (reviewerId == _viewerId)
+                    {
+                        Button btnDeleteReview = new Button
+                        {
+                            Text = "Удалить",
+                            Tag = new Tuple<int, int>(reviewerId, _userId), // Сохраняем ID рецензента и пользователя
+                            Location = new Point(reviewPanel.Width - 100, 35),
+                            Size = new Size(80, 25),
+                            BackColor = Color.LightCoral
+                        };
+                        btnDeleteReview.Click += BtnDeleteReview_Click;
+                        reviewPanel.Controls.Add(btnDeleteReview);
+                    }
 
                     reviewPanel.Controls.Add(authorLabel);
                     reviewPanel.Controls.Add(ratingLabel);
@@ -244,15 +263,48 @@ namespace AdvertServiceClient
             }
         }
 
+        private void BtnDeleteReview_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите удалить этот отзыв?", "Подтверждение удаления",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    Button btn = (Button)sender;
+                    var ids = (Tuple<int, int>)btn.Tag;
+                    int reviewerId = ids.Item1;
+                    int reviewedUserId = ids.Item2;
+
+                    var parameters = new SqlParameter[]
+                    {
+                        new SqlParameter("@ReviewerID", reviewerId),
+                        new SqlParameter("@ReviewedUserID", reviewedUserId),
+                        new SqlParameter("@IsModerator", _viewerId == reviewedUserId) // Если это владелец профиля, считаем его модератором для своих отзывов
+                    };
+
+                    _dbHelper.ExecuteStoredProcedure("sp_DeleteReview", parameters);
+
+                    // Обновляем список отзывов и рейтинг
+                    LoadUserReviews();
+                    LoadUserProfile();
+                    MessageBox.Show("Отзыв успешно удален", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при удалении отзыва: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void BtnAddReview_Click(object sender, EventArgs e)
         {
-            if (_currentUserId == _userId)
+            if (_viewerId == _userId)
             {
                 MessageBox.Show("Нельзя оставить отзыв самому себе", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var reviewForm = new ReviewForm(_currentUserId, _userId);
+            var reviewForm = new ReviewForm(_viewerId, _userId);
             if (reviewForm.ShowDialog() == DialogResult.OK)
             {
                 LoadUserReviews(); // Обновляем список отзывов
@@ -262,12 +314,16 @@ namespace AdvertServiceClient
 
         private void btnChangePassword_Click(object sender, EventArgs e)
         {
+            if (_viewerId != _userId) return; // Дополнительная защита
+
             var changePasswordForm = new ChangePasswordForm(_userId);
             changePasswordForm.ShowDialog();
         }
 
         private void btnUpdateProfile_Click(object sender, EventArgs e)
         {
+            if (_viewerId != _userId) return; // Дополнительная защита
+
             var updateProfileForm = new UpdateProfileForm(_userId);
             if (updateProfileForm.ShowDialog() == DialogResult.OK)
             {

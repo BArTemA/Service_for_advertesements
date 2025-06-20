@@ -90,16 +90,25 @@ namespace AdvertServiceClient
                         var categoryName = row["CategoryName"] != DBNull.Value ? row["CategoryName"].ToString() : "Без категории";
                         var city = row["City"] != DBNull.Value ? row["City"].ToString() : "Не указано";
                         var favoritesCount = row["FavoritesCount"] != DBNull.Value ? Convert.ToInt32(row["FavoritesCount"]) : 0;
+                        var sellerId = row["SellerID"] != DBNull.Value ? Convert.ToInt32(row["SellerID"]) : 0;
 
                         var tile = new AdvertTile(
                             advertId, title, description, price, sellerName,
                             sellerRating, categoryName, city,
-                            favoritesCount, _currentUserId);
+                            favoritesCount, _currentUserId, sellerId);
 
                         tile.MessageClicked += (sender, e) =>
                         {
                             var chatForm = new ChatForm(_currentUserId, e);
                             chatForm.ShowDialog();
+                        };
+
+                        tile.ProfileClicked += (sender, sellerIdParam) =>
+                        {
+                            // Передаем sellerIdParam как ID профиля для просмотра
+                            // и _currentUserId как ID просматривающего пользователя
+                            var profileForm = new ProfileForm(sellerIdParam, _currentUserId);
+                            profileForm.ShowDialog();
                         };
 
                         flowLayoutPanel1.Controls.Add(tile);
@@ -120,7 +129,7 @@ namespace AdvertServiceClient
 
         private void btnMyProfile_Click(object sender, EventArgs e)
         {
-            var profileForm = new ProfileForm(_currentUserId);
+            var profileForm = new ProfileForm(_currentUserId, _currentUserId);
             profileForm.ShowDialog();
             LoadUserProfile();
         }

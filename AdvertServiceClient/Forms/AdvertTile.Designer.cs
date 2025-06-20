@@ -25,6 +25,7 @@
             this.lblLocation = new System.Windows.Forms.Label();
             this.lblFavorites = new System.Windows.Forms.Label();
             this.btnMessage = new System.Windows.Forms.Button();
+            this.btnProfile = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -41,7 +42,7 @@
             // lblDescription
             // 
             this.lblDescription.AutoEllipsis = true;
-            this.lblDescription.Location = new System.Drawing.Point(10, 35);
+            this.lblDescription.Location = new System.Drawing.Point(10, 54);
             this.lblDescription.MaximumSize = new System.Drawing.Size(250, 40);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(250, 30);
@@ -53,7 +54,7 @@
             this.lblPrice.AutoSize = true;
             this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblPrice.ForeColor = System.Drawing.Color.Green;
-            this.lblPrice.Location = new System.Drawing.Point(10, 75);
+            this.lblPrice.Location = new System.Drawing.Point(9, 84);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.Size = new System.Drawing.Size(52, 20);
             this.lblPrice.TabIndex = 1;
@@ -62,7 +63,7 @@
             // lblSeller
             // 
             this.lblSeller.AutoSize = true;
-            this.lblSeller.Location = new System.Drawing.Point(8, 107);
+            this.lblSeller.Location = new System.Drawing.Point(7, 116);
             this.lblSeller.MaximumSize = new System.Drawing.Size(250, 0);
             this.lblSeller.Name = "lblSeller";
             this.lblSeller.Size = new System.Drawing.Size(57, 13);
@@ -72,7 +73,7 @@
             // lblCategory
             // 
             this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(8, 129);
+            this.lblCategory.Location = new System.Drawing.Point(7, 138);
             this.lblCategory.MaximumSize = new System.Drawing.Size(250, 0);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Size = new System.Drawing.Size(60, 13);
@@ -82,7 +83,7 @@
             // lblLocation
             // 
             this.lblLocation.AutoSize = true;
-            this.lblLocation.Location = new System.Drawing.Point(8, 151);
+            this.lblLocation.Location = new System.Drawing.Point(7, 160);
             this.lblLocation.MaximumSize = new System.Drawing.Size(250, 0);
             this.lblLocation.Name = "lblLocation";
             this.lblLocation.Size = new System.Drawing.Size(95, 13);
@@ -92,7 +93,7 @@
             // lblFavorites
             // 
             this.lblFavorites.AutoSize = true;
-            this.lblFavorites.Location = new System.Drawing.Point(10, 173);
+            this.lblFavorites.Location = new System.Drawing.Point(7, 182);
             this.lblFavorites.Name = "lblFavorites";
             this.lblFavorites.Size = new System.Drawing.Size(73, 13);
             this.lblFavorites.TabIndex = 5;
@@ -100,7 +101,7 @@
             // 
             // btnMessage
             // 
-            this.btnMessage.Location = new System.Drawing.Point(8, 200);
+            this.btnMessage.Location = new System.Drawing.Point(7, 209);
             this.btnMessage.Name = "btnMessage";
             this.btnMessage.Size = new System.Drawing.Size(120, 30);
             this.btnMessage.TabIndex = 6;
@@ -108,12 +109,23 @@
             this.btnMessage.UseVisualStyleBackColor = true;
             this.btnMessage.Click += new System.EventHandler(this.btnMessage_Click);
             // 
+            // btnProfile
+            // 
+            this.btnProfile.Location = new System.Drawing.Point(140, 209);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Size = new System.Drawing.Size(120, 30);
+            this.btnProfile.TabIndex = 8;
+            this.btnProfile.Text = "Профиль";
+            this.btnProfile.UseVisualStyleBackColor = true;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
+            // 
             // AdvertTile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.btnProfile);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.btnMessage);
             this.Controls.Add(this.lblFavorites);
@@ -125,7 +137,7 @@
             this.Margin = new System.Windows.Forms.Padding(10);
             this.Name = "AdvertTile";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Size = new System.Drawing.Size(280, 238);
+            this.Size = new System.Drawing.Size(280, 247);
             this.Load += new System.EventHandler(this.AdvertTile_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -142,5 +154,6 @@
         private System.Windows.Forms.Label lblFavorites;
         private System.Windows.Forms.Button btnMessage;
         private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.Button btnProfile;
     }
 }
