@@ -44,7 +44,13 @@ namespace AdvertServiceClient
             }
             catch (Exception ex)
             {
+                if (ex.Message == "Error executing stored procedure sp_AddReview: Можно оставлять отзыв только после взаимодействия через сообщения")
+                {
+                    MessageBox.Show($"Вы не можете оставить отзыв человеку, которому Вы не написали", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else { 
                 MessageBox.Show($"Ошибка при сохранении отзыва: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

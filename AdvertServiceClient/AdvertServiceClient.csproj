@@ -80,6 +80,12 @@
     <Compile Include="Forms\ChatForm.Designer.cs">
       <DependentUpon>ChatForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ChatListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChatListForm.Designer.cs">
+      <DependentUpon>ChatListForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ComplainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +173,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\AdvertTile.resx">
       <DependentUpon>AdvertTile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChatListForm.resx">
+      <DependentUpon>ChatListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditAdForm.resx">
       <DependentUpon>EditAdForm.cs</DependentUpon>

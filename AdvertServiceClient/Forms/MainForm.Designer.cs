@@ -1,4 +1,6 @@
-﻿namespace AdvertServiceClient
+﻿using System.Drawing;
+
+namespace AdvertServiceClient
 {
     partial class MainForm
     {
@@ -25,6 +27,7 @@
             this.lblRating = new System.Windows.Forms.Label();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.btnChats = new System.Windows.Forms.Button();
             this.panelHeader.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +63,7 @@
             // 
             // btnModeration
             // 
-            this.btnModeration.Location = new System.Drawing.Point(331, 70);
+            this.btnModeration.Location = new System.Drawing.Point(182, 33);
             this.btnModeration.Name = "btnModeration";
             this.btnModeration.Size = new System.Drawing.Size(120, 30);
             this.btnModeration.TabIndex = 4;
@@ -98,16 +101,28 @@
             // 
             // panelHeader
             // 
+            this.panelHeader.Controls.Add(this.btnChats);
             this.panelHeader.Controls.Add(this.lblWelcome);
             this.panelHeader.Controls.Add(this.btnModeration);
             this.panelHeader.Controls.Add(this.btnMyAds);
             this.panelHeader.Controls.Add(this.btnMyProfile);
             this.panelHeader.Controls.Add(this.lblRating);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelHeader.BackColor = Color.SteelBlue;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(800, 100);
             this.panelHeader.TabIndex = 8;
+            // 
+            // btnChats
+            // 
+            this.btnChats.Location = new System.Drawing.Point(338, 70);
+            this.btnChats.Name = "btnChats";
+            this.btnChats.Size = new System.Drawing.Size(120, 30);
+            this.btnChats.TabIndex = 5;
+            this.btnChats.Text = "Чаты";
+            this.btnChats.UseVisualStyleBackColor = true;
+            this.btnChats.Click += new System.EventHandler(this.btnChats_Click);
             // 
             // MainForm
             // 
@@ -135,5 +150,6 @@
         private System.Windows.Forms.Label lblRating;
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Panel panelHeader;
+        private System.Windows.Forms.Button btnChats;
     }
 }

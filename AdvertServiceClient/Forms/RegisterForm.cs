@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace AdvertServiceClient
 {
@@ -125,28 +126,53 @@ namespace AdvertServiceClient
                 // Создаем параметры
                 var parameters = new SqlParameter[]
                 {
-            new SqlParameter("@Username", txtUsername.Text.Trim()),
-            new SqlParameter("@Email", txtEmail.Text.Trim()),
-            new SqlParameter("@Password", txtPassword.Text),
-            new SqlParameter("@Phone", string.IsNullOrWhiteSpace(txtPhone.Text) ? (object)DBNull.Value : txtPhone.Text.Trim()),
-            new SqlParameter("@LocationID", locationId),
-            new SqlParameter("@UserID", SqlDbType.Int) { Direction = ParameterDirection.Output }
+                    new SqlParameter("@Username", txtUsername.Text.Trim()),
+                    new SqlParameter("@Email", txtEmail.Text.Trim()),
+                    new SqlParameter("@Password", txtPassword.Text),
+                    new SqlParameter("@Phone", string.IsNullOrWhiteSpace(txtPhone.Text) ? (object)DBNull.Value : txtPhone.Text.Trim()),
+                    new SqlParameter("@LocationID", locationId),
+                    new SqlParameter("@UserID", SqlDbType.Int) { Direction = ParameterDirection.Output }
                 };
 
                 // Выполняем процедуру
                 int affectedRows = _dbHelper.ExecuteStoredProcedureNonQuery("sp_RegisterUser", parameters);
 
-                
-                    MessageBox.Show("Регистрация прошла успешно!", "Успех",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    DialogResult = DialogResult.OK;
-                    Close();
-                
+
+                MessageBox.Show("Регистрация прошла успешно!", "Успех",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                Close();
+
             }
             catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при регистрации: {ex.Message}", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {   if (ex.Message == "Error executing stored procedure sp_RegisterUser: Вставка или обновление столбца конфликтует с правилом, наложенным предыдущей инструкцией CREATE RULE. Выполнение этой инструкции " +
+                    "прервано. Конфликт произошел в базе данных \"Advert_service\", таблице \"dbo.User\", столбце \"Phone\".") 
+                {
+                    MessageBox.Show($"Номер телефона не соответствует формату(+7(8) ххх ххх хх хх )", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }else 
+
+                if (ex.Message == "Error executing stored procedure " +
+                    "sp_RegisterUser: Имя пользователя уже занято")
+                {
+                    MessageBox.Show($"Имя пользователя уже занято", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                else
+
+                if (ex.Message == "Error executing stored procedure " +
+                    "sp_RegisterUser: Email уже зарегистрирован")
+                {
+                    MessageBox.Show("Уже существует аккаунт с такой почтой", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                else
+                {
+                    MessageBox.Show($"Ошибка при регистрации: {ex.Message}", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             Close();
         }

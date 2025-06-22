@@ -31,15 +31,10 @@ namespace AdvertServiceClient
             lblLocation.Text = $"Местоположение: {city}";
             lblFavorites.Text = $"В избранном: {favoritesCount}";
 
-            if (currentUserId <= 0)
-            {
-                btnMessage.Visible = false;
-                btnProfile.Visible = false;
-            }
-
+            btnProfile.Visible = (currentUserId != sellerId);
+            btnMessage.Visible = (currentUserId != sellerId);
 
         }
-
 
         private void btnMessage_Click(object sender, EventArgs e)
         {

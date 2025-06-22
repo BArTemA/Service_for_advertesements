@@ -28,6 +28,7 @@
             this.lblReviewsCount = new System.Windows.Forms.Label();
             this.btnChangePassword = new System.Windows.Forms.Button();
             this.btnUpdateProfile = new System.Windows.Forms.Button();
+            this.btnDeleteAccount = new System.Windows.Forms.Button();
             this.dgvReviews = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReviews)).BeginInit();
             this.SuspendLayout();
@@ -125,6 +126,16 @@
             this.btnUpdateProfile.UseVisualStyleBackColor = true;
             this.btnUpdateProfile.Click += new System.EventHandler(this.btnUpdateProfile_Click);
             // 
+            // btnDeleteAccount
+            // 
+            this.btnDeleteAccount.Location = new System.Drawing.Point(300, 180);
+            this.btnDeleteAccount.Name = "btnDeleteAccount";
+            this.btnDeleteAccount.Size = new System.Drawing.Size(120, 25);
+            this.btnDeleteAccount.TabIndex = 12;
+            this.btnDeleteAccount.Text = "Удалить аккаунт";
+            this.btnDeleteAccount.UseVisualStyleBackColor = true;
+            this.btnDeleteAccount.Click += new System.EventHandler(this.btnDeleteAccount_Click);
+            // 
             // dgvReviews
             // 
             this.dgvReviews.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -142,6 +153,7 @@
             this.Controls.Add(this.dgvReviews);
             this.Controls.Add(this.btnUpdateProfile);
             this.Controls.Add(this.btnChangePassword);
+            this.Controls.Add(this.btnDeleteAccount);
             this.Controls.Add(this.lblReviewsCount);
             this.Controls.Add(this.lblAdsCount);
             this.Controls.Add(this.lblLastLogin);
@@ -175,6 +187,7 @@
         private System.Windows.Forms.Label lblReviewsCount;
         private System.Windows.Forms.Button btnChangePassword;
         private System.Windows.Forms.Button btnUpdateProfile;
+        private System.Windows.Forms.Button btnDeleteAccount;
         private System.Windows.Forms.DataGridView dgvReviews;
     }
 }

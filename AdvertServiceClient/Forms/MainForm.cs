@@ -25,10 +25,10 @@ namespace AdvertServiceClient
 
         private void UpdateUI()
         {
-            //btnCreateAd.Visible = _currentUserId > 0;
             btnMyProfile.Visible = _currentUserId > 0;
             btnMyAds.Visible = _currentUserId > 0;
             btnModeration.Visible = _isModerator;
+            btnChats.Visible = _currentUserId > 0;
         }
 
         private void LoadUserProfile()
@@ -145,6 +145,13 @@ namespace AdvertServiceClient
         {
             var moderationForm = new ModerationForm(_currentUserId);
             moderationForm.ShowDialog();
+        }
+
+        private void btnChats_Click(object sender, EventArgs e)
+        {
+            var chatsForm = new ChatsListForm(_currentUserId);
+            chatsForm.ShowDialog();
+            LoadAdvertisements(); 
         }
     }
 }

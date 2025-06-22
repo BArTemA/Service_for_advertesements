@@ -25,9 +25,10 @@ namespace AdvertServiceClient
             LoadUserProfile();
             LoadUserReviews();
 
-            // Скрываем кнопки редактирования, если это не свой профиль
+            // Скрываем кнопки редактирования и удаления, если это не свой профиль
             btnUpdateProfile.Visible = (_userId == _viewerId);
             btnChangePassword.Visible = (_userId == _viewerId);
+            btnDeleteAccount.Visible = (_userId == _viewerId);
         }
 
         private void InitializeReviewsPanel()
@@ -328,6 +329,36 @@ namespace AdvertServiceClient
             if (updateProfileForm.ShowDialog() == DialogResult.OK)
             {
                 LoadUserProfile();
+            }
+        }
+
+        private void btnDeleteAccount_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите удалить свой аккаунт? Это действие нельзя отменить.\nВсе ваши объявления, сообщения и другие данные будут удалены.",
+                               "Подтверждение удаления",
+                               MessageBoxButtons.YesNo,
+                               MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                try
+                {
+                    var parameters = new SqlParameter[]
+                    {
+                    new SqlParameter("@UserID", _userId)
+                    };
+
+                    _dbHelper.ExecuteStoredProcedure("sp_DeleteUserAccount", parameters);
+
+                    MessageBox.Show("Ваш аккаунт был успешно удален.", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Закрываем все формы и завершаем приложение
+                    Application.Exit();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при удалении аккаунта: {ex.Message}", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

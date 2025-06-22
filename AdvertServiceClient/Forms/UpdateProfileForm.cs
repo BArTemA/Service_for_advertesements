@@ -121,8 +121,24 @@ namespace AdvertServiceClient
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при обновлении профиля: {ex.Message}", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (ex.Message == "Error executing stored procedure sp_UpdateUserProfile: Вставка или обновление столбца конфликтует с правилом, наложенным предыдущей инструкцией CREATE RULE. Выполнение этой инструкции " +
+                    "прервано. Конфликт произошел в базе данных \"Advert_service\", таблице \"dbo.User\", столбце \"Phone\".")
+                {
+                    MessageBox.Show($"Номер телефона не соответствует формату(+7(8) ххх ххх хх хх )", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }else
+
+                if (ex.Message == "Error executing stored procedure sp_UpdateUserProfile: Email уже используется другим пользователем")
+                {
+                    MessageBox.Show("Почта занята", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                else
+                {
+                    MessageBox.Show($"Ошибка при обновлении профиля: {ex.Message}", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

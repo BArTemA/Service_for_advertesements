@@ -27,11 +27,11 @@ namespace AdvertServiceClient
 
         private void InitializeChat()
         {
-            // Получаем информацию об объявлении и владельце
+            // Получаем информацию об объявлении
             var parameters = new SqlParameter[]
             {
-                new SqlParameter("@AdvertID", _advertId),
-                new SqlParameter("@IncrementViewCount", 0)
+        new SqlParameter("@AdvertID", _advertId),
+        new SqlParameter("@IncrementViewCount", 0)
             };
 
             var adData = _dbHelper.ExecuteStoredProcedure("sp_GetAdvertisementDetails", parameters);
@@ -44,24 +44,58 @@ namespace AdvertServiceClient
             }
 
             _otherUserId = Convert.ToInt32(adData.Rows[0]["UserID"]);
-
-            // Создаем или получаем существующий чат
-            var outputParam = new SqlParameter("@ChatID", SqlDbType.Int) { Direction = ParameterDirection.Output };
-
-            _dbHelper.ExecuteStoredProcedure("sp_CreateChat", new SqlParameter[]
-            {
-                new SqlParameter("@AdvertID", _advertId),
-                new SqlParameter("@User1ID", _otherUserId), // Владелец объявления
-                new SqlParameter("@User2ID", _currentUserId), // Текущий пользователь
-                outputParam
-            });
-
-            _chatId = Convert.ToInt32(outputParam.Value);
-
-            // Настраиваем интерфейс
             lblAdvertTitle.Text = adData.Rows[0]["Title"].ToString();
             lblAdvertPrice.Text = $"{Convert.ToDecimal(adData.Rows[0]["Price"]):C}";
-            lblOtherUser.Text = $"Чат с {adData.Rows[0]["Username"]}";
+
+            // Если текущий пользователь - владелец объявления
+            if (_currentUserId == _otherUserId)
+            {
+                // Ищем существующие чаты для этого объявления
+                var chatData = _dbHelper.ExecuteStoredProcedure("sp_GetChatsByAdvert", new SqlParameter[]
+                {
+            new SqlParameter("@AdvertID", _advertId),
+            new SqlParameter("@UserID", _currentUserId)
+                });
+
+                if (chatData.Rows.Count > 0)
+                {
+                    // Берем первый найденный чат
+                    _chatId = Convert.ToInt32(chatData.Rows[0]["ChatID"]);
+                    _otherUserId = Convert.ToInt32(chatData.Rows[0]["OtherUserID"]);
+                    lblOtherUser.Text = $"Чат с {chatData.Rows[0]["OtherUserName"]}";
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Нет существующих чатов для этого объявления", "Информация",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                    return;
+                }
+            }
+
+            // Если текущий пользователь НЕ владелец объявления
+            var outputParam = new SqlParameter("@ChatID", SqlDbType.Int) { Direction = ParameterDirection.Output };
+
+            try
+            {
+                _dbHelper.ExecuteStoredProcedure("sp_CreateChat", new SqlParameter[]
+                {
+            new SqlParameter("@AdvertID", _advertId),
+            new SqlParameter("@User1ID", _otherUserId), // Владелец объявления
+            new SqlParameter("@User2ID", _currentUserId), // Текущий пользователь
+            outputParam
+                });
+
+                _chatId = Convert.ToInt32(outputParam.Value);
+                lblOtherUser.Text = $"Чат с {adData.Rows[0]["Username"]}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при создании чата: {ex.Message}", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
         }
 
         private void LoadMessages()

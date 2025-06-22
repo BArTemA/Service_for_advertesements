@@ -57,9 +57,9 @@ namespace AdvertServiceClient
                 Text = "Для редактирования или удаления нажмите ПКМ",
                 Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 ForeColor = Color.Black,
-                Dock = DockStyle.Right,
+                Dock = DockStyle.Left,
                 Height = 20,
-                Width = 100,
+                Width = 200,
                 TextAlign = ContentAlignment.MiddleLeft
             };
             headerPanel.Controls.Add(lblTitle);
@@ -85,9 +85,9 @@ namespace AdvertServiceClient
             };
             btnCreate.FlatAppearance.BorderSize = 0;
             btnCreate.Click += btnCreateAd_Click;
+            toolPanel.Controls.Add(btnCreate); 
             toolPanel.Controls.Add(lblHelp);
-            toolPanel.Controls.Add(btnCreate);
-            
+
 
             // Чекбокс для показа неактивных объявлений
             _chkInactive = new CheckBox
